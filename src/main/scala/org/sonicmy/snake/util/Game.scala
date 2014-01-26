@@ -7,11 +7,11 @@ class Game(width: Int, height: Int) {
   private var isBonusPresent = false
   private val snake = new Snake(width,height,this)
 
-  def getField:Array[(Int,UnitType.Value)] = {
-    val _field = field.getField.clone
-    for(f <- _field if(f._2 == UnitType.Snake)) _field(f._1) = f._1 -> UnitType.Empty
+  def getField:Array[UnitType.Value] = {
+    val _field = field.getField.clone.map(_._2)
+    for(f <- _field.indices if(_field(f) == UnitType.Snake)) _field(f) = UnitType.Empty
     val _snake = snake.getPosition.clone
-    for (s <- _snake) _field(s) = s -> UnitType.Snake
+    for (s <- _snake) _field(s) = UnitType.Snake
     _field
   }
 	

@@ -27,7 +27,7 @@ object Main extends PApplet {
 class Main (val _WIDTH:Int, val _HEIGHT:Int, val _UNITSIZE:Int, val _MARGIN:Int, val _SCALE:Int) extends PApplet {
 
   var game = new Game(_WIDTH,_HEIGHT)
-  var solver = new Solver(game,_WIDTH)
+  var solver = new Solver(game,_WIDTH,_HEIGHT)
 
   def drawUnit(x:Int, y:Int, utype:UnitType.Value) {
     utype match {
