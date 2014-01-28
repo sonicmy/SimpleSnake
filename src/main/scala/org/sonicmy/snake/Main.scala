@@ -8,7 +8,7 @@ import org.sonicmy.snake.solver.Solver
 object Main extends PApplet {
   private var applet:Main = _
 
-  private val (_WIDTH,_HEIGHT,_UNITSIZE,_MARGIN,_SCALE) = (20,20,10,1,3)
+  private val (_WIDTH,_HEIGHT,_UNITSIZE,_MARGIN,_SCALE) = (10,10,10,1,3)
 
   def main(args: Array[String]) = {
     applet = new Main(_WIDTH,_HEIGHT,_UNITSIZE,_MARGIN,_SCALE)
@@ -28,6 +28,7 @@ class Main (val _WIDTH:Int, val _HEIGHT:Int, val _UNITSIZE:Int, val _MARGIN:Int,
 
   var game = new Game(_WIDTH,_HEIGHT)
   var solver = new Solver(game,_WIDTH,_HEIGHT)
+  private var _pause = false
 
   def drawUnit(x:Int, y:Int, utype:UnitType.Value) {
     utype match {
@@ -46,16 +47,23 @@ class Main (val _WIDTH:Int, val _HEIGHT:Int, val _UNITSIZE:Int, val _MARGIN:Int,
 
   override def setup() = {  
     background(0,0,0,0)
-    frameRate(15)
+    //frameRate(15)
   }
 
   override def draw() = {
-    solver.think
-    game.update.foreach(drawUnit)
+    if(!_pause){
+      game.update.foreach(drawUnit)
+      solver.think
+    }
   }
 
   override def keyPressed() = {
-    if(keyCode == 82) game = new Game(_WIDTH,_HEIGHT)
+    if(keyCode == 90) {game.isRunning = !game.isRunning}
+    if(keyCode == 32) {
+      if(_pause) println("unpaused") else println("paused")
+      _pause = !_pause
+    }
+    if(keyCode == 82){ game = new Game(_WIDTH,_HEIGHT); solver = new Solver(game,_WIDTH,_HEIGHT)}
     game.setSnakeDirection(keyCode)
   }
 }
